@@ -15,11 +15,6 @@ class Api
 
 	public function __construct(AccessToken $token = null, $handleAuth = false) {
 
-		$oauth = new MergadoProvider([
-			'client_id' => 'logbook',
-			'client_secret' => 'secret',
-			'redirect_uri' => 'http://localhost/logbook/public/oauth2'
-		]);
 
 		$this->urlBuilder = new UrlBuilder();
 		$this->http = new HttpClient($token);
@@ -63,8 +58,7 @@ class Api
 		$this->urlBuilder->resetUrl();
 		echo $builtUrl;
 		echo "\n";
-		$client = new HttpClient();
-		return $client->request($builtUrl, 'GET');
+		return $this->http->request($builtUrl, 'GET');
 	}
 
 	public function post($data = []) {
@@ -72,8 +66,7 @@ class Api
 		$this->urlBuilder->resetUrl();
 		echo $builtUrl;
 		echo "\n";
-		$client = new HttpClient();
-		return $client->request($builtUrl, 'POST', $data);
+		return $this->http->request($builtUrl, 'POST', $data);
 	}
 
 	public function put($data = null) {
