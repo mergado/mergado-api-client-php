@@ -140,9 +140,9 @@ class MergadoProvider extends AbstractProvider {
 	 */
 	protected function getRequiredOptions() {
 		return [
-			'client_id',
-			'client_secret',
-			'redirect_uri',
+			'clientId',
+			'clientSecret',
+			'redirectUri',
 		];
 	}
 
