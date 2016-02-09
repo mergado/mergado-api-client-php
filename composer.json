@@ -1,7 +1,7 @@
 {
   "name": "mergado/mergado-api-client",
   "description": "Handles calls from Mergado Applications to Mergado API",
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "license": "proprietary",
   "authors": [
     {
