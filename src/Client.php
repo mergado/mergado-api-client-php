@@ -10,7 +10,7 @@ class Client extends Object {
 
 	public function __construct() {
 
-		// Have a single CurlHandler for the MergadoApi client.
+		// Have a single CurlHandler for the MergadoApi ApiClient.
 		$this->curlHandler = new CurlHandler;
 
 	}
@@ -23,7 +23,7 @@ class Client extends Object {
 	 * @param ... URL parts to add to the request object
 	 * @return Request Request object to base any additional work on
 	 */
-	public function __invoke(...$args) {
+	public function __invoke($args) {
 
 		return $this->newRequest(implode('/', $args));
 

@@ -1,0 +1,30 @@
+{
+  "name": "hudecsamuel/mergado-api-client",
+  "description": "Handles calls from Mergado Applications to Mergado API",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Samuel Hudec",
+      "email": "hudecsamuel@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0",
+    "league/oauth2-client": "^1.1",
+    "guzzlehttp/guzzle": "^6.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "MergadoClient\\": "src/mergadoclient"
+    }
+  },
+  "autoload-dev": {
+    "psr-0": {
+      "MergadoClientTest\\": "tests"
+    }
+  }
+}
