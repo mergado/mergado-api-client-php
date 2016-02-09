@@ -20,6 +20,7 @@ class Api
 			'client_secret' => 'secret',
 			'redirect_uri' => 'http://localhost/logbook/public/oauth2'
 		]);
+		
 		$this->urlBuilder = new UrlBuilder();
 		$this->http = new HttpClient($token);
 		$this->handleAuth;
