@@ -1,5 +1,5 @@
 {
-  "name": "hudecsamuel/mergado-api-client",
+  "name": "mergado/mergado-api-client",
   "description": "Handles calls from Mergado Applications to Mergado API",
   "minimum-stability": "stable",
   "license": "proprietary",
