@@ -24,13 +24,6 @@ class MergadoProvider extends AbstractProvider {
 	}
 
 	/**
-	 * The Graph API version to use for requests.
-	 *
-	 * @var string
-	 */
-	protected $apiVersion;
-
-	/**
 	 * A toggle to enable the dev tier URL's.
 	 *
 	 * @var boolean
