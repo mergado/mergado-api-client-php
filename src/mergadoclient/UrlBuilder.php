@@ -8,8 +8,8 @@ class UrlBuilder
 	private $url;
 //	const BASEURL = 'http://api.mergado.com';
 //	const BASEURL = 'http://localhost/mergado/';
-	const BASEURL_DEV = 'http://lab.mergado.com/api/';
-	const BASEURL = 'http://lab.mergado.com/api/';
+	const BASEURL_DEV = 'http://lab.mergado.com/api';
+	const BASEURL = 'http://lab.mergado.com/api';
 
 	public function __construct() {
 
