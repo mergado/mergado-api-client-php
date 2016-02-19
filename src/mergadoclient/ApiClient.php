@@ -2,26 +2,23 @@
 
 namespace MergadoClient;
 
-use GuzzleHttp\Client;
 use League\OAuth2\Client\Token\AccessToken;
-use MergadoClient\OAuth2\MergadoProvider;
 
-class Api
+class ApiClient
 {
 
 	private $urlBuilder;
 	private $http;
 	private $handleAuth;
 
-	public function __construct(AccessToken $token = null, $handleAuth = false) {
-
+	public function __construct($token = null, $redirectUri = null) {
 
 		$this->urlBuilder = new UrlBuilder();
-		$this->http = new HttpClient($token);
+		$this->http = new HttpClient($token, $redirectUri);
 		$this->handleAuth;
 	}
 
-	public function setToken(AccessToken $token) {
+	public function setToken($token) {
 		$this->http->setToken($token);
 	}
 
@@ -86,20 +83,7 @@ class Api
 	 * @return Api
 	 */
 	public static function call() {
-		return new Api();
-	}
-
-	/**
-	 * @return \Psr\Http\Message\StreamInterface
-	 */
-	public function foo() {
-
-		$client = new Client();
-
-		$res = $client->request('GET', 'http://ipinfo.io');
-
-		return $res->getBody();
-
+		return new ApiClient();
 	}
 
 }

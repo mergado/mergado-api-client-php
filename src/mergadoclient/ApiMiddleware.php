@@ -26,7 +26,8 @@ class ApiMiddleware {
 						if ($code !== 401) {
 							return $response;
 						}
-						throw UnauthorizedException::create($request, $response);
+						//do your oauth authorization and retry
+//						throw UnauthorizedException::create($request, $response);
 					}
 				);
 			};

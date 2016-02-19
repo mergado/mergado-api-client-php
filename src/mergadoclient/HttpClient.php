@@ -3,20 +3,42 @@
 namespace MergadoClient;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
 use League\OAuth2\Client\Token\AccessToken;
 use MergadoClient\Exception\UnauthorizedException;
 
-class HttpClient
+/**
+ * Class HttpClient
+ * @package MergadoClient
+ * manages http calls
+ */
+class HttpClient implements Redirector
 {
 
+	/**
+	 * @var AccessToken|null
+	 */
 	private $token;
 
-	public function __construct(AccessToken $token = null) {
+	/**
+	 * HttpClient constructor.
+	 * @param string AccessToken->getToken() | null $token
+	 */
+	public function __construct($token, $redirect_uri) {
 		$this->token = $token;
 	}
 
+
+	/**
+	 * @param $url
+	 * @param string $method
+	 * @param array $data
+	 * @return array|mixed
+	 *
+	 * can throw UnauthorizedException $e -> 401 (catched by redirecting to oauth endpoint)
+	 * can throw RequestException $e -> response with 4** or 5** othen than 401(Unauthorized Exception)
+	 * can throw other Excetion $e -> other
+	 */
 	public function request($url, $method = 'GET', $data = []) {
 
 		$stack = HandlerStack::create();
@@ -27,8 +49,7 @@ class HttpClient
 
 			$response = $client->request($method ,$url, [
 					'headers' => [
-							'Auth' => $this->token->getToken()
-
+							'Auth' =>  'blabawdwd' //$this->token->getToken()
 					],
 					'json' => $data,
 					'content-type' => 'application/json'
@@ -40,38 +61,30 @@ class HttpClient
 			return $data;
 
 		} catch(UnauthorizedException $e){
-			echo 'it is ON!';
-			echo "\n";
-			Auth::getAuth();
-			echo 'auth? not realy, got 401';
-			echo "\n";
-		} catch(RequestException $e){
-// 			To catch exactly error 400 use
-			if ($e->getResponse()->getStatusCode() === '401') {
-				echo "Got response 401";
-				//authorize
-//				Auth::getAuth();
-			}
-			echo $e->getResponse()->getStatusCode();
-			echo "\n";
 
-		} catch(\Exception $e){
-			//log $e
-			echo "\n";
-			echo 'exceptional';
-			echo "\n";echo "\n";echo "\n";
-			var_dump($e);
+			//redirect to redirect_uri (your oauth endpoint)
+			$this->redirect($this->redirectUri);
+
 		}
 
 	}
 
-	public function getJson(){
-
-	}
-
+	/**
+	 * @param AccessToken $token
+	 * @return $this
+	 */
 	public function setToken(AccessToken $token) {
 		$this->token = $token;
 		return $this;
+	}
+
+	/**
+	 * @param $location
+	 * @param $code
+	 */
+	public static function redirect($location, $code = 301) {
+		header('Location: ' . $location, true, $code);
+		die();
 	}
 
 
