@@ -57,8 +57,8 @@ class HttpClient
 //			$response = $client->get('http://192.168.0.39/api/?access_token=wd');
 //			var_dump($response->getStatusCode());
 
-//			$data = json_decode($response->getBody());
-			return $response;
+			$data = json_decode($response->getBody());
+			return $data;
 
 		} catch(UnauthorizedException $e){
 
@@ -78,10 +78,10 @@ class HttpClient
 		return $this;
 	}
 
-	/**
-	 * @param $location
-	 * @param $code
-	 */
+//	/**
+//	 * @param $location
+//	 * @param $code
+//	 */
 //	public static function redirect($location, $code = 301) {
 //		header('Location: ' . $location, true, $code);
 //		die();
