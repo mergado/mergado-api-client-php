@@ -3,6 +3,7 @@
 namespace MergadoClient;
 
 use MergadoClient\Exception\UnauthorizedException;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class ApiMiddleware {
@@ -16,7 +17,7 @@ class ApiMiddleware {
 	public static function auth()
 	{
 		return function (callable $handler) {
-			return function ($request, array $options) use ($handler) {
+			return function (RequestInterface $request, array $options) use ($handler) {
 				if (empty($options['http_errors'])) {
 					return $handler($request, $options);
 				}
@@ -26,8 +27,12 @@ class ApiMiddleware {
 						if ($code !== 401) {
 							return $response;
 						}
-						//do your oauth authorization and retry
+//						do your oauth authorization and retry
 //						throw UnauthorizedException::create($request, $response);
+
+//						return response as default
+						return $response;
+
 					}
 				);
 			};

@@ -12,7 +12,7 @@ use MergadoClient\Exception\UnauthorizedException;
  * @package MergadoClient
  * manages http calls
  */
-class HttpClient implements Redirector
+class HttpClient
 {
 
 	/**
@@ -49,21 +49,21 @@ class HttpClient implements Redirector
 
 			$response = $client->request($method ,$url, [
 					'headers' => [
-							'Auth' =>  'blabawdwd' //$this->token->getToken()
+							'Authorization' =>  'Bearer '.$this->token
 					],
 					'json' => $data,
 					'content-type' => 'application/json'
 			]);
 //			$response = $client->get('http://192.168.0.39/api/?access_token=wd');
-			var_dump($response->getStatusCode());
+//			var_dump($response->getStatusCode());
 
-			$data = json_decode($response->getBody());
-			return $data;
+//			$data = json_decode($response->getBody());
+			return $response;
 
 		} catch(UnauthorizedException $e){
 
 			//redirect to redirect_uri (your oauth endpoint)
-			$this->redirect($this->redirectUri);
+//			$this->redirect($this->redirectUri);
 
 		}
 
@@ -82,10 +82,10 @@ class HttpClient implements Redirector
 	 * @param $location
 	 * @param $code
 	 */
-	public static function redirect($location, $code = 301) {
-		header('Location: ' . $location, true, $code);
-		die();
-	}
+//	public static function redirect($location, $code = 301) {
+//		header('Location: ' . $location, true, $code);
+//		die();
+//	}
 
 
 }

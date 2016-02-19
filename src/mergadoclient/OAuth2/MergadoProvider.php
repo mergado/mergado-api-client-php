@@ -9,8 +9,8 @@ use Psr\Http\Message\ResponseInterface;
 
 class MergadoProvider extends AbstractProvider {
 
-	const BASEURL = 'http://localhost/mergado/oauth2';
-	const BASEURL_DEV = 'http://localhost/mergado/oauth2';
+	const BASEURL = 'http://lab.mergado.com/oauth2';
+	const BASEURL_DEV = 'http://lab.mergado.com/oauth2';
 
 
 	public function __construct(array $options = [], array $collaborators = []) {
