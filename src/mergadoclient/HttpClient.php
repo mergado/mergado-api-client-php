@@ -24,7 +24,7 @@ class HttpClient
 	 * HttpClient constructor.
 	 * @param string AccessToken->getToken() | null $token
 	 */
-	public function __construct($token, $redirect_uri) {
+	public function __construct($token) {
 		$this->token = $token;
 	}
 
@@ -45,27 +45,18 @@ class HttpClient
 		$stack->push(ApiMiddleware::auth());
 		$client = new Client(['handler' => $stack]);
 
-		try {
-
-			$response = $client->request($method ,$url, [
-					'headers' => [
-							'Authorization' =>  'Bearer '.$this->token
-					],
-					'json' => $data,
-					'content-type' => 'application/json'
-			]);
+		$response = $client->request($method ,$url, [
+				'headers' => [
+						'Authorization' =>  'Bearer '.$this->token
+				],
+				'json' => $data,
+				'content-type' => 'application/json'
+		]);
 //			$response = $client->get('http://192.168.0.39/api/?access_token=wd');
 //			var_dump($response->getStatusCode());
 
-			$data = json_decode($response->getBody());
-			return $data;
-
-		} catch(UnauthorizedException $e){
-
-			//redirect to redirect_uri (your oauth endpoint)
-//			$this->redirect($this->redirectUri);
-
-		}
+		$data = json_decode($response->getBody());
+		return $data;
 
 	}
 
@@ -77,15 +68,6 @@ class HttpClient
 		$this->token = $token;
 		return $this;
 	}
-
-//	/**
-//	 * @param $location
-//	 * @param $code
-//	 */
-//	public static function redirect($location, $code = 301) {
-//		header('Location: ' . $location, true, $code);
-//		die();
-//	}
 
 
 }

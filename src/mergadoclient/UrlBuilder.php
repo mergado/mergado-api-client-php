@@ -6,8 +6,7 @@ namespace MergadoClient;
 class UrlBuilder
 {
 	private $url;
-//	const BASEURL = 'http://api.mergado.com';
-//	const BASEURL = 'http://localhost/mergado/';
+
 	const BASEURL_DEV = 'http://lab.mergado.com/api';
 	const BASEURL = 'http://lab.mergado.com/api';
 
@@ -29,9 +28,7 @@ class UrlBuilder
 	public function appendFromMethod($method, array $args) {
 		$this->url .= '/'.strtolower(urlencode($method));
 		if($args){
-			if(gettype($args[0]) === "integer" ){
-				$this->url .= '/'.urlencode($args[0]);
-			}
+			$this->url .= '/'.urlencode($args[0]);
 		}
 
 		return $this;
@@ -51,7 +48,7 @@ class UrlBuilder
 	 * @return string
 	 */
 	public function buildUrl() {
-		$builtUrl = $this->url.'/';
+		$builtUrl = $this->url;
 		$this->url = self::BASEURL;
 		return $builtUrl;
 	}

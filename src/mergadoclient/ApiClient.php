@@ -53,16 +53,12 @@ class ApiClient
 	public function get() {
 		$builtUrl = $this->urlBuilder->buildUrl();
 		$this->urlBuilder->resetUrl();
-		echo $builtUrl;
-		echo "\n";
 		return $this->http->request($builtUrl, 'GET');
 	}
 
 	public function post($data = []) {
 		$builtUrl = $this->urlBuilder->buildUrl();
 		$this->urlBuilder->resetUrl();
-		echo $builtUrl;
-		echo "\n";
 		return $this->http->request($builtUrl, 'POST', $data);
 	}
 

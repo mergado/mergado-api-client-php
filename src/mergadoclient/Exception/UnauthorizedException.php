@@ -46,18 +46,6 @@ class UnauthorizedException extends \Exception
 			);
 		}
 
-//		$level = floor($response->getStatusCode() / 100);
-//		if ($level == '4') {
-//			$label = 'Client error';
-//			$className = __NAMESPACE__ . '\\ClientException';
-//		} elseif ($level == '5') {
-//			$label = 'Server error';
-//			$className = __NAMESPACE__ . '\\ServerException';
-//		} else {
-//			$label = 'Unsuccessful request';
-//			$className = __CLASS__;
-//		}
-
 		$label = 'Unsuccessful request';
 		$className = __CLASS__;
 		// Server Error: `GET /` resulted in a `404 Not Found` response:
