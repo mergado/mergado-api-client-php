@@ -139,5 +139,49 @@ class MergadoProvider extends AbstractProvider {
 		];
 	}
 
+	/**
+	 * Returns authorization parameters based on provided options.
+	 *
+	 * @param  array $options
+	 * @return array Authorization parameters
+	 */
+	protected function getAuthorizationParameters(array $options)
+	{
+		if (empty($options['state'])) {
+			$options['state'] = $this->getRandomState();
+		}
+
+		if (empty($options['scope'])) {
+			$options['scope'] = $this->getDefaultScopes();
+		}
+
+		if (empty($options['entity_id'])) {
+			$options['entity_id'] = '';
+		}
+
+		$options += [
+				'response_type'   => 'code',
+				'approval_prompt' => 'auto'
+		];
+
+		if (is_array($options['scope'])) {
+			$separator = $this->getScopeSeparator();
+			$options['scope'] = implode($separator, $options['scope']);
+		}
+
+		// Store the state as it may need to be accessed later on.
+		$this->state = $options['state'];
+
+		return [
+				'client_id'       => $this->clientId,
+				'redirect_uri'    => $this->redirectUri,
+				'entity_id'       => $options['entity_id'],
+				'state'           => $this->state,
+				'scope'           => $options['scope'],
+				'response_type'   => $options['response_type'],
+				'approval_prompt' => $options['approval_prompt'],
+		];
+	}
+
 
 }
