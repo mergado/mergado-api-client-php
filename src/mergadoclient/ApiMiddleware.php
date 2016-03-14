@@ -24,13 +24,13 @@ class ApiMiddleware {
 				return $handler($request, $options)->then(
 					function (ResponseInterface $response) use ($request, $handler) {
 						$code = $response->getStatusCode();
-						if ($code !== 401) {
-							return $response;
+						if ($code == 401 || $code == 403) {
+//							do your oauth authorization and retry
+							throw UnauthorizedException::create($request, $response);
+
 						}
 
-//						do your oauth authorization and retry
-						throw UnauthorizedException::create($request, $response);
-
+						return $response;
 					}
 				);
 			};
