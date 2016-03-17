@@ -15,6 +15,8 @@ class UrlBuilder
 
 	public function __construct($mode = null) {
 
+		$this->mode = $mode;
+
 		$this->resetUrl();
 	}
 
