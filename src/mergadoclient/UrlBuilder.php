@@ -21,11 +21,11 @@ class UrlBuilder
 	public function resetUrl() {
 
 		if ($this->mode == 'dev') {
-			return static::BASEURL_DEV;
+			$this->url = static::BASEURL_DEV;
 		} else if ($this->mode == 'local') {
-			return static::BASEURL_LAB;
+			$this->url = static::BASEURL_LAB;
 		} else {
-			return static::BASEURL;
+			$this->url = static::BASEURL;
 		}
 
 	}
