@@ -5,19 +5,29 @@ namespace MergadoClient;
 
 class UrlBuilder
 {
-	private $url;
+	protected $url;
 
-	const BASEURL_DEV = 'http://lab.mergado.com/api';
-	const BASEURL = 'http://lab.mergado.com/api';
+	protected $mode;
 
-	public function __construct() {
+	const BASEURL = 'http://app.mergado.com/api';
+	const BASEURL_DEV = 'http://dev.mergado.com/api';
+	const BASEURL_LAB = 'http://lab.mergado.com/api';
+
+	public function __construct($mode = null) {
 
 		$this->resetUrl();
 	}
 
 	public function resetUrl() {
 
-		$this->url = self::BASEURL;
+		if ($this->mode == 'dev') {
+			return static::BASEURL_DEV;
+		} else if ($this->mode == 'local') {
+			return static::BASEURL_LAB;
+		} else {
+			return static::BASEURL;
+		}
+
 	}
 
 	/**
@@ -49,7 +59,7 @@ class UrlBuilder
 	 */
 	public function buildUrl() {
 		$builtUrl = $this->url;
-		$this->url = self::BASEURL;
+		$this->resetUrl();
 		return $builtUrl;
 	}
 

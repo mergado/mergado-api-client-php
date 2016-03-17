@@ -9,16 +9,19 @@ use Psr\Http\Message\ResponseInterface;
 
 class MergadoProvider extends AbstractProvider {
 
-	const BASEURL = 'http://lab.mergado.com/oauth2';
-	const BASEURL_DEV = 'http://lab.mergado.com/oauth2';
+	const BASEURL = 'http://app.mergado.com/oauth2';
+	const BASEURL_DEV = 'http://dev.mergado.com/oauth2';
+	const BASEURL_LAB = 'http://lab.mergado.com/oauth2';
 
 
-	public function __construct(array $options = [], array $collaborators = []) {
+	public function __construct(array $options = [], array $collaborators = [], $mode = null) {
 		$this->assertRequiredOptions($options);
 
 		foreach ($options as $key => $value) {
 			$this->$key = $value;
 		}
+
+		$this->mode = $mode;
 
 		parent::__construct($options, $collaborators);
 	}
@@ -28,7 +31,7 @@ class MergadoProvider extends AbstractProvider {
 	 *
 	 * @var boolean
 	 */
-	private $devMode = false;
+	protected $mode = false;
 
 
 	/**
@@ -62,6 +65,20 @@ class MergadoProvider extends AbstractProvider {
 	 */
 	public function getResourceOwnerDetailsUrl(AccessToken $token) {
 
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isMode() {
+		return $this->mode;
+	}
+
+	/**
+	 * @param boolean $mode
+	 */
+	public function setMode($mode) {
+		$this->mode = $mode;
 	}
 
 	/**
@@ -106,7 +123,13 @@ class MergadoProvider extends AbstractProvider {
 	 * @return string
 	 */
 	private function getBaseMergadoUrl() {
-		return $this->devMode ? static::BASEURL_DEV : static::BASEURL;
+		if ($this->mode == 'dev') {
+			return static::BASEURL_DEV;
+		} else if ($this->mode == 'local') {
+			return static::BASEURL_LAB;
+		} else {
+			return static::BASEURL;
+		}
 	}
 
 	/**

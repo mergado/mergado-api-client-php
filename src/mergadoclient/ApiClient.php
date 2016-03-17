@@ -9,13 +9,11 @@ class ApiClient
 
 	private $urlBuilder;
 	private $http;
-	private $handleAuth;
 
-	public function __construct($token = null, $redirectUri = null) {
+	public function __construct($token = null, $mode = null) {
 
-		$this->urlBuilder = new UrlBuilder();
-		$this->http = new HttpClient($token, $redirectUri);
-		$this->handleAuth;
+		$this->urlBuilder = new UrlBuilder($mode);
+		$this->http = new HttpClient($token);
 	}
 
 	public function setToken($token) {
