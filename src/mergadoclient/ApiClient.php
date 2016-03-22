@@ -63,13 +63,30 @@ class ApiClient
 	public function put($data = null) {
 		$builtUrl = $this->urlBuilder->buildUrl();
 		$this->urlBuilder->resetUrl();
-		return $builtUrl;
+		return $this->http->request($builtUrl, 'PATCH', $data);
 	}
 
 	public function delete() {
 		$builtUrl = $this->urlBuilder->buildUrl();
 		$this->urlBuilder->resetUrl();
-		return $builtUrl;
+		return $this->http->request($builtUrl, 'DELETE');
+	}
+
+	public function limit($number) {
+		$this->urlBuilder->addQueryParam('limit', $number);
+		return $this;
+	}
+
+	public function offset($number) {
+		$this->urlBuilder->addQueryParam('offset', $number);
+		return $this;
+	}
+
+	public function fields(array $fields) {
+		$arr = $fields;
+		$str = implode (",", $arr);
+		$this->urlBuilder->addQueryParam('fields', $str);
+		return $this;
 	}
 
 	/**

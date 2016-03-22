@@ -9,6 +9,8 @@ class UrlBuilder
 
 	protected $mode;
 
+	protected $queryParams = [];
+
 	const BASEURL = 'http://app.mergado.com/api';
 	const BASEURL_DEV = 'http://dev.mergado.com/api';
 	const BASEURL_LAB = 'http://lab.mergado.com/api';
@@ -39,10 +41,10 @@ class UrlBuilder
 	 */
 	public function appendFromMethod($method, array $args) {
 		$this->url .= '/'.strtolower(urlencode($method));
-		if($args){
-			$this->url .= '/'.urlencode($args[0]);
-		}
 
+		if($args){
+			$this->url .= '/' . urlencode($args[0]);
+		}
 		return $this;
 	}
 
@@ -62,7 +64,21 @@ class UrlBuilder
 	public function buildUrl() {
 		$builtUrl = $this->url;
 		$this->resetUrl();
+
+		foreach ($this->queryParams as $key => $value) {
+			$parsedUrl = parse_url($builtUrl);
+			$separator = (!isset($parsedUrl['query'])) ? '?' : '&';
+			$builtUrl .= $separator . $key . "=" . $value;
+		}
+
 		return $builtUrl;
 	}
+
+	public function addQueryParam($key, $value) {
+		$this->queryParams[$key] = $value;
+		return $this;
+	}
+
+
 
 }
