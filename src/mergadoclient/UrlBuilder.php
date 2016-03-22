@@ -71,6 +71,8 @@ class UrlBuilder
 			$builtUrl .= $separator . $key . "=" . $value;
 		}
 
+		$this->queryParams = [];
+
 		return $builtUrl;
 	}
 
