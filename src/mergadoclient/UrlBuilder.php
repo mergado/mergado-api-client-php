@@ -12,7 +12,7 @@ class UrlBuilder
 	protected $queryParams = [];
 
 	const BASEURL = 'https://app.mergado.com/api';
-	const BASEURL_DEV = 'http://dev.mergado.com/api';
+	const BASEURL_DEV = 'https://app.mergado.com/api';
 	const BASEURL_LAB = 'http://lab.mergado.com/api';
 
 	public function __construct($mode = null) {

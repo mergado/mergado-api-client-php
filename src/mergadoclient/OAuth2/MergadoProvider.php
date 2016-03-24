@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 class MergadoProvider extends AbstractProvider {
 
 	const BASEURL = 'https://app.mergado.com/oauth2';
-	const BASEURL_DEV = 'http://dev.mergado.com/oauth2';
+	const BASEURL_DEV = 'https://app.mergado.com/oauth2';
 	const BASEURL_LAB = 'http://lab.mergado.com/oauth2';
 
 
