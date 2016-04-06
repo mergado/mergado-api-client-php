@@ -63,6 +63,7 @@ class UrlBuilder
 	 */
 	public function buildUrl() {
 		$builtUrl = $this->url;
+		$builtUrl .= "/";
 		$this->resetUrl();
 
 		foreach ($this->queryParams as $key => $value) {

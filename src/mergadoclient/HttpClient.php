@@ -45,16 +45,14 @@ class HttpClient
 		$stack->push(ApiMiddleware::auth());
 		$client = new Client(['handler' => $stack]);
 
-		$response = $client->request($method ,$url, [
+		$response = $client->request($method, $url, [
 				'headers' => [
 						'Authorization' =>  'Bearer '.$this->token
 				],
 				'json' => $data,
 				'content-type' => 'application/json'
 		]);
-//			$response = $client->get('http://192.168.0.39/api/?access_token=wd');
-//			var_dump($response->getStatusCode());
-
+		
 		$data = json_decode($response->getBody());
 		return $data;
 
