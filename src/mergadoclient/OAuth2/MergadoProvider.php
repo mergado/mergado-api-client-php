@@ -5,6 +5,7 @@ namespace MergadoClient\OAuth2;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
+use MergadoClient\Exception\UnauthorizedException;
 use Psr\Http\Message\ResponseInterface;
 
 class MergadoProvider extends AbstractProvider {
@@ -227,7 +228,7 @@ class MergadoProvider extends AbstractProvider {
 		$request  = $this->getAccessTokenRequest($params);
 		$response = $this->getResponse($request);
 		if(gettype($response) == "string") {
-			return null;
+			throw new UnauthorizedException("Request error. Didn't get json response back.", $request);
 		}
 		$prepared = $this->prepareAccessTokenResponse($response);
 		$token    = $this->createAccessToken($prepared, $grant);
