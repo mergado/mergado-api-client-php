@@ -206,5 +206,34 @@ class MergadoProvider extends AbstractProvider {
 		];
 	}
 
+	/**
+	 * Requests an access token using a specified grant and option set.
+	 *
+	 * @param  mixed $grant
+	 * @param  array $options
+	 * @return AccessToken
+	 */
+	public function getAccessToken($grant, array $options = [])
+	{
+		$grant = $this->verifyGrant($grant);
+
+		$params = [
+				'client_id'     => $this->clientId,
+				'client_secret' => $this->clientSecret,
+				'redirect_uri'  => $this->redirectUri,
+		];
+
+		$params   = $grant->prepareRequestParameters($params, $options);
+		$request  = $this->getAccessTokenRequest($params);
+		$response = $this->getResponse($request);
+		if(gettype($response) == "string") {
+			return null;
+		}
+		$prepared = $this->prepareAccessTokenResponse($response);
+		$token    = $this->createAccessToken($prepared, $grant);
+
+		return $token;
+	}
+
 
 }
