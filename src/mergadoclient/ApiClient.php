@@ -72,6 +72,30 @@ class ApiClient
 		return $this->http->request($builtUrl, 'DELETE');
 	}
 
+	public function getAsync() {
+		$builtUrl = $this->urlBuilder->buildUrl();
+		$this->urlBuilder->resetUrl();
+		return $this->http->requestAsync($builtUrl, 'GET');
+	}
+
+	public function postAsync($data = []) {
+		$builtUrl = $this->urlBuilder->buildUrl();
+		$this->urlBuilder->resetUrl();
+		return $this->http->requestAsync($builtUrl, 'POST', $data);
+	}
+
+	public function putAsync($data = null) {
+		$builtUrl = $this->urlBuilder->buildUrl();
+		$this->urlBuilder->resetUrl();
+		return $this->http->requestAsync($builtUrl, 'PATCH', $data);
+	}
+
+	public function deleteAsync() {
+		$builtUrl = $this->urlBuilder->buildUrl();
+		$this->urlBuilder->resetUrl();
+		return $this->http->requestAsync($builtUrl, 'DELETE');
+	}
+
 	public function limit($number) {
 		$this->urlBuilder->addQueryParam('limit', $number);
 		return $this;
