@@ -59,6 +59,26 @@ class HttpClient
 
 	}
 
+	public function requestAsync($url, $method = 'GET', $data = []) {
+
+		$stack = HandlerStack::create();
+		$stack->push(ApiMiddleware::auth());
+		$client = new Client(['handler' => $stack]);
+
+		$promise = $client->requestAsync($method, $url, [
+				'headers' => [
+						'Authorization' =>  'Bearer '.$this->token
+				],
+				'json' => $data,
+				'content-type' => 'application/json'
+		]);
+
+		return $promise;
+
+	}
+
+
+
 	/**
 	 * @param AccessToken $token
 	 * @return $this
