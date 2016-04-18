@@ -50,9 +50,10 @@ class HttpClient
 						'Authorization' =>  'Bearer '.$this->token
 				],
 				'json' => $data,
-				'content-type' => 'application/json'
+				'content-type' => 'application/json',
+				"synchronous" => true
 		]);
-		
+
 		$data = json_decode($response->getBody());
 		return $data;
 
