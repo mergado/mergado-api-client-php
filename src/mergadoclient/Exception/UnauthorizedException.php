@@ -19,7 +19,7 @@ class UnauthorizedException extends \Exception
 
 	public function __construct(
 		$message,
-		RequestInterface $request,
+		RequestInterface $request = null,
 		ResponseInterface $response = null,
 		\Exception $previous = null
 	) {

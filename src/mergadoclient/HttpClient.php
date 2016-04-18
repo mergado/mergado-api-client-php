@@ -3,7 +3,9 @@
 namespace MergadoClient;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
+use JsonSchema\Exception\ResourceNotFoundException;
 use League\OAuth2\Client\Token\AccessToken;
 use MergadoClient\Exception\UnauthorizedException;
 
@@ -74,6 +76,34 @@ class HttpClient
 		]);
 
 		return $promise;
+
+	}
+
+	public function requestCurl($url, $method = 'GET', $data = []) {
+		$data_string = json_encode($data);
+
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+						'Content-Type: application/json',
+						'Authorization: Bearer '.$this->token)
+		);
+
+		$result = curl_exec($ch);
+		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		$result = json_decode($result);
+
+		$result = array_merge((array) $result, ["status_code" => $httpcode]);
+
+		if ($httpcode == 401 || $httpcode == 403) {
+			throw new UnauthorizedException("Unauthorized");
+		} elseif ($httpcode > 403) {
+			throw new \Exception();
+		}
+
+		return $result;
 
 	}
 

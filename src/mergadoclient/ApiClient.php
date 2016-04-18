@@ -96,6 +96,30 @@ class ApiClient
 		return $this->http->requestAsync($builtUrl, 'DELETE');
 	}
 
+	public function getCurl() {
+		$builtUrl = $this->urlBuilder->buildUrl();
+		$this->urlBuilder->resetUrl();
+		return $this->http->requestCurl($builtUrl, 'GET');
+	}
+
+	public function postCurl($data = []) {
+		$builtUrl = $this->urlBuilder->buildUrl();
+		$this->urlBuilder->resetUrl();
+		return $this->http->requestCurl($builtUrl, 'POST', $data);
+	}
+
+	public function putCurl($data = null) {
+		$builtUrl = $this->urlBuilder->buildUrl();
+		$this->urlBuilder->resetUrl();
+		return $this->http->requestCurl($builtUrl, 'PATCH', $data);
+	}
+
+	public function deleteCurl() {
+		$builtUrl = $this->urlBuilder->buildUrl();
+		$this->urlBuilder->resetUrl();
+		return $this->http->requestCurl($builtUrl, 'DELETE');
+	}
+
 	public function limit($number) {
 		$this->urlBuilder->addQueryParam('limit', $number);
 		return $this;
