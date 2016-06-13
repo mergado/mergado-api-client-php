@@ -59,7 +59,7 @@ class MergadoProvider extends AbstractProvider
      */
     public function getBaseAccessTokenUrl(array $params)
     {
-        return $this->getBaseMergadoUrl() . '/access-token';
+        return $this->getBaseMergadoUrl() . '/token';
     }
 
     /**
@@ -184,13 +184,14 @@ class MergadoProvider extends AbstractProvider
      */
     protected function getAuthorizationParameters(array $options)
     {
-        if (empty($options['state'])) {
-            $options['state'] = $this->getRandomState();
-        }
+//        I removed this from application authorization flow
+//        if (empty($options['state'])) {
+//            $options['state'] = $this->getRandomState();
+//        }
 
-        if (empty($options['scope'])) {
-            $options['scope'] = $this->getDefaultScopes();
-        }
+//        if (empty($options['scope'])) {
+//            $options['scope'] = $this->getDefaultScopes();
+//        }
 
         if (empty($options['entity_id'])) {
             $options['entity_id'] = '';
@@ -207,13 +208,13 @@ class MergadoProvider extends AbstractProvider
         }
 
         // Store the state as it may need to be accessed later on.
-        $this->state = $options['state'];
+//        $this->state = $options['state'];
 
         return [
             'client_id' => $this->clientId,
             'redirect_uri' => $this->redirectUri,
             'entity_id' => $options['entity_id'],
-            'state' => $this->state,
+//            'state' => $this->state,
             'scope' => $options['scope'],
             'response_type' => $options['response_type'],
             'approval_prompt' => $options['approval_prompt'],
@@ -229,6 +230,19 @@ class MergadoProvider extends AbstractProvider
      */
     public function getAccessToken($grant, array $options = [])
     {
+        if($grant == 'offline_token') {
+            $grant = 'refresh_token';
+            if(isset($options["entity_id"])) {
+                $options["refresh_token"] = base64_encode($options["entity_id"]);
+                unset($options["entity_id"]);
+            }
+        } elseif ($grant == 'refresh_token') {
+            if(isset($options["entity_id"])) {
+                $options["refresh_token"] = base64_encode($options["entity_id"]);
+                unset($options["entity_id"]);
+            }
+        }
+
         $grant = $this->verifyGrant($grant);
 
         $params = [
