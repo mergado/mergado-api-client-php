@@ -252,7 +252,7 @@ class MergadoProvider extends AbstractProvider
      */
     protected function createAccessToken(array $response, AbstractGrant $grant)
     {
-        return new AccessToken($response);
+        return new \MergadoClient\OAuth2\AccessToken($response);
     }
 
 
