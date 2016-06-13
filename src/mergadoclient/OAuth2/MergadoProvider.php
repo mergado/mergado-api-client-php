@@ -13,8 +13,7 @@ class MergadoProvider extends AbstractProvider
 
     const BASEURL = 'https://app.mergado.com/oauth2';
     const BASEURL_DEV = 'https://app.mergado.com/oauth2';
-    const BASEURL_LAB = 'http://lab.mergado.com/oauth2';
-
+    const BASEURL_LOCAL = 'http://dev.mergado.com/oauth2';
 
     public function __construct(array $options = [], array $collaborators = [], $mode = null)
     {
@@ -138,7 +137,7 @@ class MergadoProvider extends AbstractProvider
         if ($this->mode == 'dev') {
             return static::BASEURL_DEV;
         } else if ($this->mode == 'local') {
-            return static::BASEURL_LAB;
+            return static::BASEURL_LOCAL;
         } else {
             return static::BASEURL;
         }
