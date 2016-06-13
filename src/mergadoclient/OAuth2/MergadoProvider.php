@@ -202,10 +202,10 @@ class MergadoProvider extends AbstractProvider
             'approval_prompt' => 'auto'
         ];
 
-        if (is_array($options['scope'])) {
-            $separator = $this->getScopeSeparator();
-            $options['scope'] = implode($separator, $options['scope']);
-        }
+//        if (is_array($options['scope'])) {
+//            $separator = $this->getScopeSeparator();
+//            $options['scope'] = implode($separator, $options['scope']);
+//        }
 
         // Store the state as it may need to be accessed later on.
 //        $this->state = $options['state'];
@@ -215,7 +215,7 @@ class MergadoProvider extends AbstractProvider
             'redirect_uri' => $this->redirectUri,
             'entity_id' => $options['entity_id'],
 //            'state' => $this->state,
-            'scope' => $options['scope'],
+//            'scope' => $options['scope'],
             'response_type' => $options['response_type'],
             'approval_prompt' => $options['approval_prompt'],
         ];
