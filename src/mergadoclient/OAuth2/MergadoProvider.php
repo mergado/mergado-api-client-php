@@ -3,8 +3,8 @@
 namespace MergadoClient\OAuth2;
 
 
+use League\OAuth2\Client\Grant\AbstractGrant;
 use League\OAuth2\Client\Provider\AbstractProvider;
-use League\OAuth2\Client\Token\AccessToken;
 use MergadoClient\Exception\UnauthorizedException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -62,17 +62,6 @@ class MergadoProvider extends AbstractProvider
     }
 
     /**
-     * Returns the URL for requesting the resource owner's details.
-     *
-     * @param AccessToken $token
-     * @return string
-     */
-    public function getResourceOwnerDetailsUrl(AccessToken $token)
-    {
-
-    }
-
-    /**
      * @return boolean
      */
     public function isMode()
@@ -110,19 +99,6 @@ class MergadoProvider extends AbstractProvider
      * @return void
      */
     protected function checkResponse(ResponseInterface $response, $data)
-    {
-
-    }
-
-    /**
-     * Generates a resource owner object from a successful resource owner
-     * details request.
-     *
-     * @param  array $response
-     * @param  AccessToken $token
-     * @return ResourceOwnerInterface
-     */
-    protected function createResourceOwner(array $response, AccessToken $token)
     {
 
     }
@@ -260,6 +236,21 @@ class MergadoProvider extends AbstractProvider
         $token = $this->createAccessToken($prepared, $grant);
 
         return $token;
+    }
+
+    /**
+     * Creates an access token from a response.
+     *
+     * The grant that was used to fetch the response can be used to provide
+     * additional context.
+     *
+     * @param  array $response
+     * @param  AbstractGrant $grant
+     * @return AccessToken
+     */
+    protected function createAccessToken(array $response, AbstractGrant $grant)
+    {
+        return new AccessToken($response);
     }
 
 
