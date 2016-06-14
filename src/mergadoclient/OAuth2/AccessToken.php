@@ -167,8 +167,12 @@ class AccessToken implements JsonSerializable
             $parameters['access_token'] = $this->accessToken;
         }
 
-        if ($this->refreshToken) {
-            $parameters['refresh_token'] = $this->refreshToken;
+        if ($this->userId) {
+            $parameters['user_id'] = $this->userId;
+        }
+
+        if ($this->entityId) {
+            $parameters['entity_id'] = $this->entityId;
         }
 
         if ($this->expires) {
