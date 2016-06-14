@@ -2,8 +2,6 @@
 
 namespace MergadoClient;
 
-use League\OAuth2\Client\Token\AccessToken;
-
 class ApiClient
 {
 
