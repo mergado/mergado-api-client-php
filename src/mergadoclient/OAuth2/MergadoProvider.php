@@ -203,7 +203,7 @@ class MergadoProvider extends AbstractProvider
      *
      * @param  mixed $grant
      * @param  array $options
-     * @return AccessToken
+     * @return \MergadoClient\OAuth2\AccessToken
      */
     public function getAccessToken($grant, array $options = [])
     {
@@ -248,7 +248,7 @@ class MergadoProvider extends AbstractProvider
      *
      * @param  array $response
      * @param  AbstractGrant $grant
-     * @return AccessToken
+     * @return \MergadoClient\OAuth2\AccessToken
      */
     protected function createAccessToken(array $response, AbstractGrant $grant)
     {
