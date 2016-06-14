@@ -13,7 +13,7 @@ class UrlBuilder
 
     const BASEURL = 'https://app.mergado.com/api';
     const BASEURL_DEV = 'https://app.mergado.com/api';
-    const BASEURL_LAB = 'http://lab.mergado.com/api';
+    const BASEURL_LOCAL = 'http://dev.mergado.com/api';
 
     public function __construct($mode = null)
     {
@@ -29,7 +29,7 @@ class UrlBuilder
         if ($this->mode == 'dev') {
             $this->url = static::BASEURL_DEV;
         } else if ($this->mode == 'local') {
-            $this->url = static::BASEURL_LAB;
+            $this->url = static::BASEURL_LOCAL;
         } else {
             $this->url = static::BASEURL;
         }

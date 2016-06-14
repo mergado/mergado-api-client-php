@@ -3,7 +3,9 @@
 namespace MergadoClient\OAuth2;
 
 
+use League\OAuth2\Client\Grant\AbstractGrant;
 use League\OAuth2\Client\Provider\AbstractProvider;
+use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 use League\OAuth2\Client\Token\AccessToken;
 use MergadoClient\Exception\UnauthorizedException;
 use Psr\Http\Message\ResponseInterface;
@@ -13,8 +15,7 @@ class MergadoProvider extends AbstractProvider
 
     const BASEURL = 'https://app.mergado.com/oauth2';
     const BASEURL_DEV = 'https://app.mergado.com/oauth2';
-    const BASEURL_LAB = 'http://lab.mergado.com/oauth2';
-
+    const BASEURL_LOCAL = 'http://dev.mergado.com/oauth2';
 
     public function __construct(array $options = [], array $collaborators = [], $mode = null)
     {
@@ -59,18 +60,7 @@ class MergadoProvider extends AbstractProvider
      */
     public function getBaseAccessTokenUrl(array $params)
     {
-        return $this->getBaseMergadoUrl() . '/access-token';
-    }
-
-    /**
-     * Returns the URL for requesting the resource owner's details.
-     *
-     * @param AccessToken $token
-     * @return string
-     */
-    public function getResourceOwnerDetailsUrl(AccessToken $token)
-    {
-
+        return $this->getBaseMergadoUrl() . '/token';
     }
 
     /**
@@ -116,19 +106,6 @@ class MergadoProvider extends AbstractProvider
     }
 
     /**
-     * Generates a resource owner object from a successful resource owner
-     * details request.
-     *
-     * @param  array $response
-     * @param  AccessToken $token
-     * @return ResourceOwnerInterface
-     */
-    protected function createResourceOwner(array $response, AccessToken $token)
-    {
-
-    }
-
-    /**
      * Get the base Facebook URL.
      *
      * @return string
@@ -138,7 +115,7 @@ class MergadoProvider extends AbstractProvider
         if ($this->mode == 'dev') {
             return static::BASEURL_DEV;
         } else if ($this->mode == 'local') {
-            return static::BASEURL_LAB;
+            return static::BASEURL_LOCAL;
         } else {
             return static::BASEURL;
         }
@@ -184,13 +161,14 @@ class MergadoProvider extends AbstractProvider
      */
     protected function getAuthorizationParameters(array $options)
     {
-        if (empty($options['state'])) {
-            $options['state'] = $this->getRandomState();
-        }
+//        I removed this from application authorization flow
+//        if (empty($options['state'])) {
+//            $options['state'] = $this->getRandomState();
+//        }
 
-        if (empty($options['scope'])) {
-            $options['scope'] = $this->getDefaultScopes();
-        }
+//        if (empty($options['scope'])) {
+//            $options['scope'] = $this->getDefaultScopes();
+//        }
 
         if (empty($options['entity_id'])) {
             $options['entity_id'] = '';
@@ -201,20 +179,20 @@ class MergadoProvider extends AbstractProvider
             'approval_prompt' => 'auto'
         ];
 
-        if (is_array($options['scope'])) {
-            $separator = $this->getScopeSeparator();
-            $options['scope'] = implode($separator, $options['scope']);
-        }
+//        if (is_array($options['scope'])) {
+//            $separator = $this->getScopeSeparator();
+//            $options['scope'] = implode($separator, $options['scope']);
+//        }
 
         // Store the state as it may need to be accessed later on.
-        $this->state = $options['state'];
+//        $this->state = $options['state'];
 
         return [
             'client_id' => $this->clientId,
             'redirect_uri' => $this->redirectUri,
             'entity_id' => $options['entity_id'],
-            'state' => $this->state,
-            'scope' => $options['scope'],
+//            'state' => $this->state,
+//            'scope' => $options['scope'],
             'response_type' => $options['response_type'],
             'approval_prompt' => $options['approval_prompt'],
         ];
@@ -225,10 +203,23 @@ class MergadoProvider extends AbstractProvider
      *
      * @param  mixed $grant
      * @param  array $options
-     * @return AccessToken
+     * @return \MergadoClient\OAuth2\AccessToken
      */
     public function getAccessToken($grant, array $options = [])
     {
+        if($grant == 'offline_token') {
+            $grant = 'refresh_token';
+            if(isset($options["entity_id"])) {
+                $options["refresh_token"] = base64_encode($options["entity_id"]);
+                unset($options["entity_id"]);
+            }
+        } elseif ($grant == 'refresh_token') {
+            if(isset($options["entity_id"])) {
+                $options["refresh_token"] = base64_encode($options["entity_id"]);
+                unset($options["entity_id"]);
+            }
+        }
+
         $grant = $this->verifyGrant($grant);
 
         $params = [
@@ -249,5 +240,43 @@ class MergadoProvider extends AbstractProvider
         return $token;
     }
 
+    /**
+     * Creates an access token from a response.
+     *
+     * The grant that was used to fetch the response can be used to provide
+     * additional context.
+     *
+     * @param  array $response
+     * @param  AbstractGrant $grant
+     * @return \MergadoClient\OAuth2\AccessToken
+     */
+    protected function createAccessToken(array $response, AbstractGrant $grant)
+    {
+        return new \MergadoClient\OAuth2\AccessToken($response);
+    }
 
+
+    /**
+     * Returns the URL for requesting the resource owner's details.
+     *
+     * @param AccessToken $token
+     * @return string
+     */
+    public function getResourceOwnerDetailsUrl(AccessToken $token)
+    {
+        // TODO: Implement getResourceOwnerDetailsUrl() method.
+    }
+
+    /**
+     * Generates a resource owner object from a successful resource owner
+     * details request.
+     *
+     * @param  array $response
+     * @param  AccessToken $token
+     * @return ResourceOwnerInterface
+     */
+    protected function createResourceOwner(array $response, AccessToken $token)
+    {
+        // TODO: Implement createResourceOwner() method.
+    }
 }

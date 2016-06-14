@@ -2,8 +2,6 @@
 
 namespace MergadoClient;
 
-use League\OAuth2\Client\Token\AccessToken;
-
 class ApiClient
 {
 
@@ -12,7 +10,6 @@ class ApiClient
 
     public function __construct($token = null, $mode = null)
     {
-
         $this->urlBuilder = new UrlBuilder($mode);
         $this->http = new HttpClient($token);
     }
