@@ -12,7 +12,6 @@ class ApiClient
 
     public function __construct($token = null, $mode = null)
     {
-
         $this->urlBuilder = new UrlBuilder($mode);
         $this->http = new HttpClient($token);
     }
