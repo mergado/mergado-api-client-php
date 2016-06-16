@@ -3,11 +3,9 @@
 namespace MergadoClient;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\HandlerStack;
-use JsonSchema\Exception\ResourceNotFoundException;
-use League\OAuth2\Client\Token\AccessToken;
 use MergadoClient\Exception\UnauthorizedException;
+use MergadoClient\OAuth2\AccessToken;
 
 /**
  * Class HttpClient
