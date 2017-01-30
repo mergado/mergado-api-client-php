@@ -68,6 +68,13 @@ class HttpClient
 
     }
 
+    /**
+     * Guzzle async request
+     * @param $url
+     * @param string $method
+     * @param array $data
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
     public function requestAsync($url, $method = 'GET', $data = [])
     {
 
@@ -87,6 +94,15 @@ class HttpClient
 
     }
 
+    /**
+     * Curl request - instead of Guzzle
+     * @param $url
+     * @param string $method
+     * @param array $data
+     * @return array|mixed
+     * @throws UnauthorizedException
+     * @throws \Exception
+     */
     public function requestCurl($url, $method = 'GET', $data = [])
     {
         $data_string = json_encode($data);
@@ -113,7 +129,6 @@ class HttpClient
         }
 
         return $result;
-
     }
 
 

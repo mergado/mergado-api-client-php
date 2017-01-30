@@ -3,18 +3,44 @@
 namespace MergadoClient;
 
 
+/**
+ * Class UrlBuilder
+ * @package MergadoClient
+ */
 class UrlBuilder
 {
+    /**
+     * @var
+     */
     protected $url;
 
+    /**
+     * @var null
+     */
     protected $mode;
 
+    /**
+     * @var array
+     */
     protected $queryParams = [];
 
+    /**
+     *
+     */
     const BASEURL = 'https://app.mergado.com/api';
+    /**
+     *
+     */
     const BASEURL_DEV = 'https://app.mergado.com/api';
+    /**
+     *
+     */
     const BASEURL_LOCAL = 'http://dev.mergado.com/api';
 
+    /**
+     * UrlBuilder constructor.
+     * @param null $mode
+     */
     public function __construct($mode = null)
     {
 
@@ -23,6 +49,9 @@ class UrlBuilder
         $this->resetUrl();
     }
 
+    /**
+     * Sets $this->url to base
+     */
     public function resetUrl()
     {
 
@@ -82,6 +111,11 @@ class UrlBuilder
         return $builtUrl;
     }
 
+    /**
+     * @param $key
+     * @param $value
+     * @return $this
+     */
     public function addQueryParam($key, $value)
     {
         $this->queryParams[$key] = $value;
