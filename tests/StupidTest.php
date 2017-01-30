@@ -2,7 +2,10 @@
 
 namespace MergadoClientTest;
 
-class StupidTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class StupidTest extends TestCase
+{
 
 	public function testTrueIsTrue() {
 		$foo = true;

@@ -3,9 +3,10 @@
 namespace MergadoClientTest;
 
 use MergadoClient\UrlBuilder;
+use PHPUnit\Framework\TestCase;
 
 
-class UrlBuilderTest extends \PHPUnit_Framework_TestCase
+class UrlBuilderTest extends TestCase
 {
 
 	/**
@@ -29,12 +30,12 @@ class UrlBuilderTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function providerTestAppendFromMethodReturnsExpected() {
 		return [
-			['stats', [6],'http://app.mergado.com/api/stats/6'],
-			['rules', ['blabla'], 'http://app.mergado.com/api/rules/blabla'],
-			['permisions', [10], 'http://app.mergado.com/api/permisions/10'],
-			['rUles', ['6'], 'http://app.mergado.com/api/rules/6'],
-			['project-id33', ['@#!'], 'http://app.mergado.com/api/project-id33/%40%23%21'],
-			['pRojecT-Id', [44], 'http://app.mergado.com/api/project-id/44']
+			['stats', [6],'https://app.mergado.com/api/stats/6/'],
+			['rules', ['blabla'], 'https://app.mergado.com/api/rules/blabla/'],
+			['permisions', [10], 'https://app.mergado.com/api/permisions/10/'],
+			['rUles', ['6'], 'https://app.mergado.com/api/rules/6/'],
+			['project-id33', ['@#!'], 'https://app.mergado.com/api/project-id33/%40%23%21/'],
+			['pRojecT-Id', [44], 'https://app.mergado.com/api/project-id/44/']
 		];
 	}
 
@@ -58,12 +59,12 @@ class UrlBuilderTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function providerTestAppendFromPropertyWorkAsExpected() {
 		return [
-			['stats', 'http://app.mergado.com/api/stats'],
-			['rules', 'http://app.mergado.com/api/rules'],
-			['permisions44', 'http://app.mergado.com/api/permisions44'],
-			['rUles', 'http://app.mergado.com/api/rules'],
-			['project-id', 'http://app.mergado.com/api/project-id'],
-			['pRojecT-Id', 'http://app.mergado.com/api/project-id']
+			['stats', 'https://app.mergado.com/api/stats/'],
+			['rules', 'https://app.mergado.com/api/rules/'],
+			['permisions44', 'https://app.mergado.com/api/permisions44/'],
+			['rUles', 'https://app.mergado.com/api/rules/'],
+			['project-id', 'https://app.mergado.com/api/project-id/'],
+			['pRojecT-Id', 'https://app.mergado.com/api/project-id/']
 		];
 	}
 
@@ -96,26 +97,26 @@ class UrlBuilderTest extends \PHPUnit_Framework_TestCase
 					'limit' => 20,
 					'offset' => 10,
 					'fields' => 'name,email,gender'
-				], 'http://app.mergado.com/api/stats/6?limit=20&offset=10&fields=name,email,gender'],
+				], 'https://app.mergado.com/api/stats/6/?limit=20&offset=10&fields=name,email,gender'],
 				['rules', ['blabla'], [
 					'limit' => 20,
 					'offset' => 10,
 					'fields' => 'name,email,gender'
-				], 'http://app.mergado.com/api/rules/blabla?limit=20&offset=10&fields=name,email,gender'],
+				], 'https://app.mergado.com/api/rules/blabla/?limit=20&offset=10&fields=name,email,gender'],
 				['permisions', [10], [
 					'limit' => 30,
 					'fields' => 'name,email,gender'
-				], 'http://app.mergado.com/api/permisions/10?limit=30&fields=name,email,gender'],
+				], 'https://app.mergado.com/api/permisions/10/?limit=30&fields=name,email,gender'],
 				['rUles', ['6'], [
 					'offset' => 10,
 					'fields' => 'name,email,gender'
-				], 'http://app.mergado.com/api/rules/6?offset=10&fields=name,email,gender'],
+				], 'https://app.mergado.com/api/rules/6/?offset=10&fields=name,email,gender'],
 				['project-id33', ['@#!'], [
 					'limit' => 20
-				], 'http://app.mergado.com/api/project-id33/%40%23%21?limit=20'],
+				], 'https://app.mergado.com/api/project-id33/%40%23%21/?limit=20'],
 				['pRojecT-Id', [44], [
 					'fields' => 'name,email,gender'
-				], 'http://app.mergado.com/api/project-id/44?fields=name,email,gender']
+				], 'https://app.mergado.com/api/project-id/44/?fields=name,email,gender']
 		];
 	}
 
