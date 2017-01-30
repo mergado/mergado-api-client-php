@@ -34,26 +34,33 @@ class HttpClient
      * @param $url
      * @param string $method
      * @param array $data
-     * @return array|mixed
+     * @return array
      *
-     * can throw UnauthorizedException $e -> 401 (catched by redirecting to oauth endpoint)
-     * can throw RequestException $e -> response with 4** or 5** othen than 401(Unauthorized Exception)
+     * can throw GuzzleHttp\Exception\ServerException for 500 level errors - extends from GuzzleHttp\Exception\BadResponseException.
+     *
+     * can throw GuzzleHttp\Exception\ClientException $e -> for 400 level errors
+     * - Extends from GuzzleHttp\Exception\BadResponseException
+     * and GuzzleHttp\Exception\BadResponseException extends from GuzzleHttp\Exception\RequestException.
+     *
+     * can throw GuzzleHttp\Exception\RequestException $e -> networkking errors - extends from GuzzleHttp\Exception\TransferException
+     *
+     * can throw GuzzleHttp\Exception\TooManyRedirectsException - extends GuzzleHttp\Exception\RequestException
      * can throw other Excetion $e -> other
      */
     public function request($url, $method = 'GET', $data = [])
     {
 
         $stack = HandlerStack::create();
-        $stack->push(ApiMiddleware::auth());
         $client = new Client(['handler' => $stack]);
 
         $response = $client->request($method, $url, [
+            'http_errors' => true,
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->token
             ],
             'json' => $data,
             'content-type' => 'application/json',
-            "synchronous" => true
+            "synchronous" => true,
         ]);
 
         $data = json_decode($response->getBody());
