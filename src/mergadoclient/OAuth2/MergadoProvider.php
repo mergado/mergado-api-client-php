@@ -15,7 +15,7 @@ class MergadoProvider extends AbstractProvider
 
     const BASEURL = 'https://app.mergado.com/oauth2';
     const BASEURL_DEV = 'https://app.mergado.com/oauth2';
-    const BASEURL_LOCAL = 'http://dev.mergado.com/oauth2';
+    const BASEURL_LOCAL = 'https://app.mergado.com/oauth2';
 
     public function __construct(array $options = [], array $collaborators = [], $mode = null)
     {
