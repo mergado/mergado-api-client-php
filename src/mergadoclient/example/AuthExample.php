@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: samuel
- * Date: 12.1.16
- * Time: 9:57
- */
 
 namespace MergadoClient;
 
@@ -59,7 +53,6 @@ class Auth
                 // We have an access token, which we may use in authenticated
                 // requests against the service provider's API.
                 echo $accessToken->getToken() . "\n";
-                echo $accessToken->getRefreshToken() . "\n";
                 echo $accessToken->getExpires() . "\n";
                 echo ($accessToken->hasExpired() ? 'expired' : 'not expired') . "\n";
 

@@ -98,6 +98,17 @@ class ApiClient
     {
         $builtUrl = $this->urlBuilder->buildUrl();
         $this->urlBuilder->resetUrl();
+        return $this->http->request($builtUrl, 'PUT', $data);
+    }
+
+    /**
+     * @param null $data
+     * @return array
+     */
+    public function patch($data = null)
+    {
+        $builtUrl = $this->urlBuilder->buildUrl();
+        $this->urlBuilder->resetUrl();
         return $this->http->request($builtUrl, 'PATCH', $data);
     }
 
@@ -137,6 +148,17 @@ class ApiClient
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function putAsync($data = null)
+    {
+        $builtUrl = $this->urlBuilder->buildUrl();
+        $this->urlBuilder->resetUrl();
+        return $this->http->requestAsync($builtUrl, 'PUT', $data);
+    }
+
+    /**
+     * @param null $data
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function patchAsync($data = null)
     {
         $builtUrl = $this->urlBuilder->buildUrl();
         $this->urlBuilder->resetUrl();
@@ -185,6 +207,19 @@ class ApiClient
      * @throws \Exception
      */
     public function putCurl($data = null)
+    {
+        $builtUrl = $this->urlBuilder->buildUrl();
+        $this->urlBuilder->resetUrl();
+        return $this->http->requestCurl($builtUrl, 'PUT', $data);
+    }
+
+    /**
+     * @param null $data
+     * @return array|mixed
+     * @throws Exception\UnauthorizedException
+     * @throws \Exception
+     */
+    public function patchCurl($data = null)
     {
         $builtUrl = $this->urlBuilder->buildUrl();
         $this->urlBuilder->resetUrl();
