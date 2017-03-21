@@ -264,9 +264,12 @@ class ApiClient
      */
     public function fields(array $fields)
     {
-        $arr = $fields;
-        $str = implode(",", $arr);
-        $this->urlBuilder->addQueryParam('fields', $str);
+        if (!empty($fields)) {
+            $arr = $fields;
+            $str = implode(",", $arr);
+            $this->urlBuilder->addQueryParam('fields', $str);
+        }
+
         return $this;
     }
 
