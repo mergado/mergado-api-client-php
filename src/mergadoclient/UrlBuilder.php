@@ -27,15 +27,15 @@ class UrlBuilder
     /**
      *
      */
-    const BASEURL = 'https://app.mergado.com/api';
+    const BASEURL = 'https://api.mergado.com';
     /**
      *
      */
-    const BASEURL_DEV = 'https://app.mergado.com/api';
+    const BASEURL_DEV = 'https://api.mergado.com';
     /**
      *
      */
-    const BASEURL_LOCAL = 'http://dev.mergado.com/api';
+    const BASEURL_LOCAL = 'http://api.mergado.com';
 
     /**
      * UrlBuilder constructor.
