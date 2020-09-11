@@ -6,7 +6,7 @@ use MergadoClient\ApiClient;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
-class ApiCLientTest extends TestCase {
+class ApiClientTest extends TestCase {
 
 	const URL = 'https://example.com/api';
 
