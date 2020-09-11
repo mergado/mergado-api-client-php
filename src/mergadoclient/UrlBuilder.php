@@ -2,13 +2,17 @@
 
 namespace MergadoClient;
 
-
 /**
  * Class UrlBuilder
  * @package MergadoClient
  */
-class UrlBuilder
-{
+class UrlBuilder {
+
+    /**
+     * @var string
+     */
+    const DEFAULT_BASE_URL = 'https://api.mergado.com';
+
     /**
      * @var
      */
@@ -17,7 +21,7 @@ class UrlBuilder
     /**
      * @var null
      */
-    protected $mode;
+    protected $baseUrl = self::DEFAULT_BASE_URL;
 
     /**
      * @var array
@@ -25,26 +29,14 @@ class UrlBuilder
     protected $queryParams = [];
 
     /**
-     *
-     */
-    const BASEURL = 'https://api.mergado.com';
-    /**
-     *
-     */
-    const BASEURL_DEV = 'https://api.mergado.com';
-    /**
-     *
-     */
-    const BASEURL_LOCAL = 'http://api.mergado.com';
-
-    /**
      * UrlBuilder constructor.
-     * @param null $mode
+     * @param ?string $baseUrl
      */
-    public function __construct($mode = null)
-    {
+    public function __construct($baseUrl = null) {
 
-        $this->mode = $mode;
+        if ($baseUrl && mb_strpos($baseUrl, 'http') === 0) {
+            $this->baseUrl = $baseUrl;
+        }
 
         $this->resetUrl();
     }
@@ -52,17 +44,9 @@ class UrlBuilder
     /**
      * Sets $this->url to base
      */
-    public function resetUrl()
-    {
+    public function resetUrl() {
 
-        if ($this->mode == 'dev') {
-            $this->url = static::BASEURL_DEV;
-        } else if ($this->mode == 'local') {
-            $this->url = static::BASEURL_LOCAL;
-        } else {
-            $this->url = static::BASEURL;
-        }
-
+        $this->url = $this->baseUrl;
     }
 
     /**
@@ -70,8 +54,8 @@ class UrlBuilder
      * @param array $args
      * @return $this
      */
-    public function appendFromMethod($method, array $args)
-    {
+    public function appendFromMethod($method, array $args) {
+
         $this->url .= '/' . strtolower(urlencode($method));
 
         if ($args) {
@@ -84,18 +68,17 @@ class UrlBuilder
      * @param $name
      * @return $this
      */
-    public function appendFromProperty($name)
-    {
+    public function appendFromProperty($name) {
+
         $this->url .= '/' . strtolower(urlencode($name));
         return $this;
     }
 
-
     /**
      * @return string
      */
-    public function buildUrl()
-    {
+    public function buildUrl() {
+
         $builtUrl = $this->url;
         $builtUrl .= "/";
         $this->resetUrl();
@@ -116,11 +99,10 @@ class UrlBuilder
      * @param $value
      * @return $this
      */
-    public function addQueryParam($key, $value)
-    {
+    public function addQueryParam($key, $value) {
+
         $this->queryParams[$key] = $value;
         return $this;
     }
-
 
 }

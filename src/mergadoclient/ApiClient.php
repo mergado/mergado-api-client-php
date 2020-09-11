@@ -22,11 +22,11 @@ class ApiClient
     /**
      * ApiClient constructor.
      * @param null $token
-     * @param null $mode
+     * @param null $baseUrl
      */
-    public function __construct($token = null, $mode = null)
+    public function __construct($token = null, $baseUrl = null)
     {
-        $this->urlBuilder = new UrlBuilder($mode);
+        $this->urlBuilder = new UrlBuilder($baseUrl);
         $this->http = new HttpClient($token);
     }
 
@@ -58,6 +58,10 @@ class ApiClient
         $this->urlBuilder->appendFromMethod($method, $args);
         return $this;
 
+    }
+
+    public function __toString() {
+        return $this->urlBuilder->buildUrl();
     }
 
     /**
@@ -286,11 +290,11 @@ class ApiClient
 
     /**
      * when using static call (eg. Api::call()->example->get();)
-     * @return Api
+     * @return ApiClient
      */
-    public static function call()
+    public static function call($token, $apiUrl = null)
     {
-        return new ApiClient();
+        return new ApiClient($token, $apiUrl);
     }
 
 }

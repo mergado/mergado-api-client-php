@@ -142,5 +142,9 @@ class HttpClient
         return $this;
     }
 
+    public static function redirect($authorizationUrl, $code = 301) {
+        header('Location:' . $authorizationUrl, true, $code);
+        die;
+    }
 
 }

@@ -13,11 +13,12 @@ use Psr\Http\Message\ResponseInterface;
 class MergadoProvider extends AbstractProvider
 {
 
-    const BASEURL = 'https://app.mergado.com/oauth2';
-    const BASEURL_DEV = 'https://app.mergado.com/oauth2';
-    const BASEURL_LOCAL = 'https://app.mergado.com/oauth2';
+    /**
+     * Can be replaced with 'oAuthEndpoint' option
+     */
+    const DEFAULT_BASE_URL = 'https://app.mergado.com/oauth2';
 
-    public function __construct(array $options = [], array $collaborators = [], $mode = null)
+    public function __construct(array $options = [], array $collaborators = [])
     {
         $this->assertRequiredOptions($options);
 
@@ -25,18 +26,8 @@ class MergadoProvider extends AbstractProvider
             $this->$key = $value;
         }
 
-        $this->mode = $mode;
-
         parent::__construct($options, $collaborators);
     }
-
-    /**
-     * A toggle to enable the dev tier URL's.
-     *
-     * @var boolean
-     */
-    protected $mode = false;
-
 
     /**
      * Returns the base URL for authorizing a client.
@@ -64,22 +55,6 @@ class MergadoProvider extends AbstractProvider
     }
 
     /**
-     * @return boolean
-     */
-    public function isMode()
-    {
-        return $this->mode;
-    }
-
-    /**
-     * @param boolean $mode
-     */
-    public function setMode($mode)
-    {
-        $this->mode = $mode;
-    }
-
-    /**
      * Returns the default scopes used by this provider.
      *
      * This should only be the scopes that are required to request the details
@@ -89,7 +64,7 @@ class MergadoProvider extends AbstractProvider
      */
     protected function getDefaultScopes()
     {
-
+        return [];
     }
 
     /**
@@ -112,13 +87,10 @@ class MergadoProvider extends AbstractProvider
      */
     private function getBaseMergadoUrl()
     {
-        if ($this->mode == 'dev') {
-            return static::BASEURL_DEV;
-        } else if ($this->mode == 'local') {
-            return static::BASEURL_LOCAL;
-        } else {
-            return static::BASEURL;
-        }
+
+        $url = $this->oAuthEndpoint;
+        return $url ?? self::DEFAULT_BASE_URL;
+
     }
 
     /**

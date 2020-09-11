@@ -1,4 +1,7 @@
-# mergado-api-client-php
-Mergado API Client for PHP
+# Mergado API Client for PHP
 
+## Instalation:
 ``composer require mergado/mergado-api-client``
+
+## Usage
+see `example/index.php`
