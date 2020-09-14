@@ -2,125 +2,107 @@
 
 namespace MergadoClient;
 
-
 /**
  * Class UrlBuilder
  * @package MergadoClient
  */
-class UrlBuilder
-{
-    /**
-     * @var
-     */
-    protected $url;
+class UrlBuilder {
 
-    /**
-     * @var null
-     */
-    protected $mode;
+	/**
+	 * @var string
+	 */
+	const DEFAULT_BASE_URL = 'https://api.mergado.com';
 
-    /**
-     * @var array
-     */
-    protected $queryParams = [];
+	/**
+	 * @var
+	 */
+	protected $url;
 
-    /**
-     *
-     */
-    const BASEURL = 'https://api.mergado.com';
-    /**
-     *
-     */
-    const BASEURL_DEV = 'https://api.mergado.com';
-    /**
-     *
-     */
-    const BASEURL_LOCAL = 'http://api.mergado.com';
+	/**
+	 * @var null
+	 */
+	protected $baseUrl = self::DEFAULT_BASE_URL;
 
-    /**
-     * UrlBuilder constructor.
-     * @param null $mode
-     */
-    public function __construct($mode = null)
-    {
+	/**
+	 * @var array
+	 */
+	protected $queryParams = [];
 
-        $this->mode = $mode;
+	/**
+	 * UrlBuilder constructor.
+	 * @param ?string $baseUrl
+	 */
+	public function __construct($baseUrl = null) {
 
-        $this->resetUrl();
-    }
+		if ($baseUrl && mb_strpos($baseUrl, 'http') === 0) {
+			$this->baseUrl = $baseUrl;
+		}
 
-    /**
-     * Sets $this->url to base
-     */
-    public function resetUrl()
-    {
+		$this->resetUrl();
 
-        if ($this->mode == 'dev') {
-            $this->url = static::BASEURL_DEV;
-        } else if ($this->mode == 'local') {
-            $this->url = static::BASEURL_LOCAL;
-        } else {
-            $this->url = static::BASEURL;
-        }
+	}
 
-    }
+	/**
+	 * Sets $this->url to base
+	 */
+	public function resetUrl() {
+		$this->url = $this->baseUrl;
+	}
 
-    /**
-     * @param $method
-     * @param array $args
-     * @return $this
-     */
-    public function appendFromMethod($method, array $args)
-    {
-        $this->url .= '/' . strtolower(urlencode($method));
+	/**
+	 * @param $method
+	 * @param array $args
+	 * @return $this
+	 */
+	public function appendFromMethod($method, array $args) {
 
-        if ($args) {
-            $this->url .= '/' . urlencode($args[0]);
-        }
-        return $this;
-    }
+		$this->url .= '/' . strtolower(urlencode($method));
 
-    /**
-     * @param $name
-     * @return $this
-     */
-    public function appendFromProperty($name)
-    {
-        $this->url .= '/' . strtolower(urlencode($name));
-        return $this;
-    }
+		if ($args) {
+			$this->url .= '/' . urlencode($args[0]);
+		}
+		return $this;
 
+	}
 
-    /**
-     * @return string
-     */
-    public function buildUrl()
-    {
-        $builtUrl = $this->url;
-        $builtUrl .= "/";
-        $this->resetUrl();
+	/**
+	 * @param $name
+	 * @return $this
+	 */
+	public function appendFromProperty($name) {
+		$this->url .= '/' . strtolower(urlencode($name));
+		return $this;
+	}
 
-        foreach ($this->queryParams as $key => $value) {
-            $parsedUrl = parse_url($builtUrl);
-            $separator = (!isset($parsedUrl['query'])) ? '?' : '&';
-            $builtUrl .= $separator . $key . "=" . $value;
-        }
+	/**
+	 * @return string
+	 */
+	public function buildUrl() {
 
-        $this->queryParams = [];
+		$builtUrl = $this->url;
+		$builtUrl .= "/";
+		$this->resetUrl();
 
-        return $builtUrl;
-    }
+		foreach ($this->queryParams as $key => $value) {
+			$parsedUrl = parse_url($builtUrl);
+			$separator = (!isset($parsedUrl['query'])) ? '?' : '&';
+			$builtUrl .= $separator . $key . "=" . $value;
+		}
 
-    /**
-     * @param $key
-     * @param $value
-     * @return $this
-     */
-    public function addQueryParam($key, $value)
-    {
-        $this->queryParams[$key] = $value;
-        return $this;
-    }
+		$this->queryParams = [];
 
+		return $builtUrl;
+
+	}
+
+	/**
+	 * @param $key
+	 * @param $value
+	 * @return $this
+	 */
+	public function addQueryParam($key, $value) {
+		$this->queryParams[$key] = $value;
+		return $this;
+	}
 
 }
