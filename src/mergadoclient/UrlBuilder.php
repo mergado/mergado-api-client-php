@@ -34,10 +34,9 @@ class UrlBuilder {
 	 */
 	public function __construct($baseUrl = null) {
 
-		if ($baseUrl && mb_strpos($baseUrl, 'http') === 0) {
+		if ($baseUrl && strpos($baseUrl, 'http') === 0) {
 			$this->baseUrl = $baseUrl;
 		}
-
 		$this->resetUrl();
 
 	}

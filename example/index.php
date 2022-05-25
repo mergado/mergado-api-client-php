@@ -15,6 +15,7 @@ const MERGADO_API_URL = 'https://api.mergado.com';
 const CLIENT_ID = 'client_id_for_mergado_platform';
 const CLIENT_SECRET = 'client_secret_for_mergado_platform';
 const REDIRECT_URI = 'https://example.com/path-to-your-app';
+const ENTITY_ID = 1;
 
 $provider = new MergadoProvider([
 		'oAuthEndpoint' => MERGADO_OAUTH_URL,
@@ -23,20 +24,28 @@ $provider = new MergadoProvider([
 		'redirectUri' => REDIRECT_URI,
 	]);
 
-if (!isset($_GET['code'])) {
+if (isset($_GET['error'])){
+
+	echo "Error: " . $_GET['error'];
+	if (isset($_GET['error_description'])) {
+		echo "Description: " . $_GET['error_description'];
+	}
+	exit;
+
+} elseif (!isset($_GET['code'])) {
 
 	// Fetch the authorization URL from the provider; this returns the
 	// urlAuthorize option and generates and applies any necessary parameters
 	// (e.g. state).
 	$authorizationUrl = $provider->getAuthorizationUrl([
-		'entity_id' => 1,
+		'entity_id' => ENTITY_ID,
 	]);
 
 	// Redirect the user to the authorization URL.
 	HttpClient::redirect($authorizationUrl, 301);
+	exit;
 
-}
-else {
+} else {
 
 	try {
 
@@ -56,6 +65,8 @@ else {
 		// This doesn't require any scope
 		$response = ApiClient::call($accessToken->getToken(), MERGADO_API_URL)
 			->apps
+			->offset(0)
+			->limit(100)
 			->get();
 
 		echo '<br><br><br>';
@@ -78,10 +89,10 @@ else {
 		// This requires user.shops.read scope
 
 		$userShops = ApiClient::call($accessToken->getToken(), MERGADO_API_URL)
-			->users(1)
+			->users($user->id)
 			->shops()
-			->limit(100)
 			->offset(0)
+			->limit(100)
 			->get();
 
 		echo '<br><br><br>';

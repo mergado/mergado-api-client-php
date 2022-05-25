@@ -10,7 +10,7 @@ use RuntimeException;
  *
  * @link http://tools.ietf.org/html/rfc6749#section-1.4 Access Token (RFC 6749, §1.4)
  */
-class AccessToken implements \JsonSerializable {
+class AccessToken extends \League\OAuth2\Client\Token\AccessToken implements \JsonSerializable {
 
 	/**
 	 * @var string
