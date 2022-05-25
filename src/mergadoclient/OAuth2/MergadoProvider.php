@@ -169,25 +169,7 @@ class MergadoProvider extends AbstractProvider {
 			}
 		}
 
-		$grant = $this->verifyGrant($grant);
-
-		$params = [
-			'client_id' => $this->clientId,
-			'client_secret' => $this->clientSecret,
-			'redirect_uri' => $this->redirectUri,
-		];
-
-		$params = $grant->prepareRequestParameters($params, $options);
-		$request = $this->getAccessTokenRequest($params);
-		$response = $this->getResponse($request);
-		if (gettype($response) == "string") {
-			throw new UnauthorizedException("Request error. Didn't get json response back.", $request);
-		}
-		$prepared = $this->prepareAccessTokenResponse($response);
-		$token = $this->createAccessToken($prepared, $grant);
-
-		return $token;
-
+		return parent::getAccessToken($grant, $options);
 	}
 
 	/**
